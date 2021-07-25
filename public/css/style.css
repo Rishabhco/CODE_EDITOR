@@ -1,0 +1,72 @@
+.con{
+    font-family: 'Montserrat', sans-serif !important;
+    background-color: #ABB2BF;
+}
+
+.head{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    position: absolute;
+    height: 96px;
+    background: rgba(50, 7, 77, 1) !important;
+    color : #F6C636;
+    padding-left: 20px;
+}
+
+.logo{
+    height : 75px;
+    margin-right: 10px;
+}
+
+.code{
+    font-size: 2rem !important;
+}
+
+.sel-lang{
+    background-color: #0D0845 !important;
+    color: #F6C636 !important;
+    border-radius: 5px !important;
+    margin: 8px !important;
+}
+
+.run{
+    height: 40px !important;
+    margin: 9px 0px 4px 0px;
+    padding: 3px 0px 5px 0px !important;
+    height: 45px !important;
+    width: 120px;
+    border-radius: 5px !important;
+    color: #F6C636 !important;
+    font-size: 1.5rem !important;
+}
+
+.form-label{
+margin: 8px 0px -2px 8px !important;
+font-size: larger !important;
+font-weight: bold;
+}
+.form-check-label{
+    font-size: larger !important;
+    font-weight: bold;
+
+}
+
+.form-check{
+    margin-left: 10px;
+}
+.text{
+    background-color: #282C34 !important;
+    color: #ABB2BF !important;
+    font-family: 'PT Mono', monospace;;
+    border-radius: 10px !important;
+    margin: 4px 4px -5px 4px !important;
+    resize: none;
+    padding: 5px !important;
+}
+
+#io{
+    padding:0px 5px 10px 15px; 
+}
+form{
+    margin-bottom: -16px;
+}
