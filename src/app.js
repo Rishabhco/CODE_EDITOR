@@ -7,6 +7,11 @@ var compiler = require('compilex');
 const app = express();
 const port = process.env.PORT || 3000
 
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
+
 const publicDirectoryPath = path.join(__dirname, "../public")
 const viewspath = path.join(__dirname, "../templates/views")
 
@@ -22,21 +27,24 @@ compiler.init(option);
 app.get('/', function (req, res) {
     res.render("index");
 });
-// var axios = require('axios');
+var axios = require('axios');
 
 
-app.get('/compilecode', function (req, res) {
-    const input = req.query.cinput;
-    const code = req.query.code;
-    console.log(req.query.code);
-    if (req.query.lang === "Select Language") {
+app.post('/compilecode', function (req, res) {
+    const input = req.body.input;
+    const code = req.body.code;
+    // console.log(code);
+    // console.log(input);
+    // console.log(req.body.inputRadio);
+    // console.log(req.body.lang);
+    if (req.body.lang === "Select Language") {
         return res.send({
             error: "Please select a language"
         });
     }
-    else if ((req.query.lang === "C") || (req.query.lang === "C++")) {
-        if (req.query.cin === "true") {
-            var envData = { OS: "windows", cmd: "g++" };
+    else if ((req.body.lang === "C") || (req.body.lang === "C++")) {
+        if (req.body.inputRadio === true) {
+            var envData = { OS: "windows", cmd: "g++", options: { timeout: false } };
             compiler.compileCPPWithInput(envData, code, input, function (data) {
                 if (data.error) {
                     res.send({
@@ -49,39 +57,9 @@ app.get('/compilecode', function (req, res) {
                     });
                 }
             });
-            // var data = JSON.stringify({
-            //     "code": code,
-            //     "language": req.query.lang,
-            //     "input": input
-            // });
-
-            // var config = {
-            //     method: 'post',
-            //     url: 'https://codexweb.netlify.app/.netlify/functions/enforceCode',
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     },
-            //     data: data
-            // };
-
-            // axios(config)
-            //     .then(function (response) {
-            //         console.log(response.data);
-            //         return res.send({
-            //             result:response.data
-            //         })
-            //     })
-            //     .catch(function (error) {
-            //         console.log(error);
-            //         return res.send({
-            //             error:error
-            //         })
-
-            //     });
-
         }
         else {
-            var envData = { OS: "windows", cmd: "g++" };
+            var envData = { OS: "windows", cmd: "g++", options: { timeout: false } };
             compiler.compileCPP(envData, code, function (data) {
                 if (data.error) {
                     res.send({
@@ -97,9 +75,9 @@ app.get('/compilecode', function (req, res) {
             });
         }
     }
-    else if (req.query.lang === "Python") {
-        if (req.query.cin === "true") {
-            var envData = { OS: "windows" };
+    else if (req.body.lang === "Python") {
+        if (req.body.inputRadio === true) {
+            var envData = { OS: "windows", options: { timeout: false } };
             compiler.compilePythonWithInput(envData, code, input, function (data) {
                 if (data.error) {
                     res.send({
@@ -114,7 +92,7 @@ app.get('/compilecode', function (req, res) {
             });
         }
         else {
-            var envData = { OS: "windows" };
+            var envData = { OS: "windows" , options: { timeout: false }};
             compiler.compilePython(envData, code, function (data) {
                 if (data.error) {
                     res.send({
@@ -129,9 +107,9 @@ app.get('/compilecode', function (req, res) {
             });
         }
     }
-    else if (req.query.lang === "Java") {
-        if (req.query.cin === "true") {
-            var envData = { OS: "windows" };
+    else if (req.body.lang === "Java") {
+        if (req.body.inputRadio === true) {
+            var envData = { OS: "windows" , options: { timeout: false }};
             compiler.compileJavaWithInput(envData, code, input, function (data) {
                 if (data.error) {
                     res.send({
@@ -146,7 +124,7 @@ app.get('/compilecode', function (req, res) {
             });
         }
         else {
-            var envData = { OS: "windows" };
+            var envData = { OS: "windows" , options: { timeout: false }};
             compiler.compileJava(envData, code, function (data) {
                 if (data.error) {
                     res.send({
@@ -161,9 +139,9 @@ app.get('/compilecode', function (req, res) {
             });
         }
     }
-    if (req.query.lang === "C#") {
-        if (req.query.cin === "true") {
-            var envData = { OS: "windows" };
+    if (req.body.lang === "C#") {
+        if (req.body.inputRadio === true) {
+            var envData = { OS: "windows" , options: { timeout: false }};
             compiler.compileCSWithInput(envData, code, input, function (data) {
                 if (data.error) {
                     res.send({
@@ -178,7 +156,7 @@ app.get('/compilecode', function (req, res) {
             });
         }
         else {
-            var envData = { OS: "windows" };
+            var envData = { OS: "windows" , options: { timeout: false }};
             compiler.compileCS(envData, code, function (data) {
                 if (data.error) {
                     res.send({
@@ -205,7 +183,6 @@ app.get('/fullStat', function (req, res) {
 compiler.flush(function () {
     console.log('All temporary files flushed !');
 });
-
 
 
 app.listen(port, () => {
