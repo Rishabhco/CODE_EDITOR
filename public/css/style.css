@@ -1,6 +1,11 @@
 .con{
     font-family: 'Montserrat', sans-serif !important;
+    
+}
+
+#body{
     background-color: #ABB2BF;
+    height: 100%;
 }
 
 .head{
